@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_superbootcamp/presentation/add_product/cubits/product_cubit/product_cubit.dart';
 import 'package:pos_superbootcamp/presentation/app_router.dart';
 import 'package:pos_superbootcamp/presentation/auth/blocs/login/login_bloc.dart';
 import 'package:pos_superbootcamp/presentation/auth/blocs/register/register_bloc.dart';
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LoginBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ProductCubit(),
         ),
       ],
       child: MaterialApp.router(
