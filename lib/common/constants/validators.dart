@@ -50,4 +50,20 @@ class Validator {
     }
     return null;
   }
+
+  static String? requiredValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Field tidak boleh kosong';
+    }
+    return null;
+  }
+
+  static String? numberValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Nomor tidak boleh kosong';
+    } else if (value.contains(RegExp(r'[a-zA-Z]'))) {
+      return 'Nomor tidak boleh mengandung huruf';
+    }
+    return null;
+  }
 }

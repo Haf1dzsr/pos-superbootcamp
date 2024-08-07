@@ -25,14 +25,23 @@ class ProductRemoteDatasource {
         imageUrl = await storageRef.getDownloadURL();
       }
 
-      final productToAdd =
-          product.copyWith(imageName: imageName, imageUrl: imageUrl);
-      await FirebaseFirestore.instance
-          .collection('products')
-          .add(productToAdd.toJson());
+      final productCol = FirebaseFirestore.instance.collection('products');
+      final doc = productCol.doc();
+
+      final productToAdd = product.copyWith(
+          id: doc.id, imageName: imageName, imageUrl: imageUrl);
+      await doc.set(productToAdd.toJson());
+
       return right(unit);
     } catch (e) {
       return left(e.toString());
     }
+  }
+
+  Stream<List<ProductModel>> getProducts() {
+    return FirebaseFirestore.instance.collection('products').snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList());
   }
 }

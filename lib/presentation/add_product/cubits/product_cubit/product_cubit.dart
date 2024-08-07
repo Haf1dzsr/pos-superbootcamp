@@ -12,12 +12,12 @@ part 'product_cubit.freezed.dart';
 class ProductCubit extends Cubit<ProductState> {
   ProductCubit() : super(const ProductState.initial());
 
-  Future<void> addProduct(
-      String name, String description, int price, File? image) async {
+  Future<void> addProduct(String name, String description, int price, int stock,
+      File? image) async {
     emit(const ProductState.loading());
 
-    final product =
-        ProductModel(name: name, description: description, price: price);
+    final product = ProductModel(
+        name: name, description: description, price: price, stock: stock);
     final result =
         await ProductRemoteDatasource.instance.addProduct(product, image);
 
