@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "544973491115",
+    "project_id": "pos-superbootcamp",
+    "storage_bucket": "pos-superbootcamp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544973491115:android:033c7713ae21a30a63a0ee",
+        "android_client_info": {
+          "package_name": "com.example.pos_superbootcamp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZewi0cUcy6uC8MSunp2LmATP7tSOa-9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
