@@ -34,7 +34,9 @@ class HomeScreen extends StatelessWidget {
                   Icons.shopping_cart,
                   color: AppColor.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.pushNamed(AppRoutes.nrCart);
+                },
               ),
             ),
           ),

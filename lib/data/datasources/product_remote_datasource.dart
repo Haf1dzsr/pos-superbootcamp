@@ -106,7 +106,7 @@ class ProductRemoteDatasource {
     await doc.update(
       {
         'quantity': value,
-        'price': (value * cart.price!).toDouble(),
+        'priceTotal': (value * cart.price!),
       },
     );
   }

@@ -4,6 +4,7 @@ import 'package:pos_superbootcamp/presentation/add_product/add_product_screen.da
 import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/auth/screens/login_screen.dart';
 import 'package:pos_superbootcamp/presentation/auth/screens/register_screen.dart';
+import 'package:pos_superbootcamp/presentation/cart/cart_screen.dart';
 import 'package:pos_superbootcamp/presentation/globals.dart';
 import 'package:pos_superbootcamp/presentation/home/home_screen.dart';
 import 'package:pos_superbootcamp/presentation/main/main_screen.dart';
@@ -53,6 +54,11 @@ final GoRouter appGlobalRouter = GoRouter(
           product: product,
         );
       },
+    ),
+    GoRoute(
+      path: AppRoutes.nrCart,
+      name: AppRoutes.nrCart,
+      builder: (context, state) => const CartScreen(),
     ),
   ],
 );
