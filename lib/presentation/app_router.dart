@@ -10,6 +10,7 @@ import 'package:pos_superbootcamp/presentation/globals.dart';
 import 'package:pos_superbootcamp/presentation/home/home_screen.dart';
 import 'package:pos_superbootcamp/presentation/inventory/inventory_screen.dart';
 import 'package:pos_superbootcamp/presentation/main/main_screen.dart';
+import 'package:pos_superbootcamp/presentation/order_detail/order_detail_screen.dart';
 import 'package:pos_superbootcamp/presentation/payment/payment_screen.dart';
 import 'package:pos_superbootcamp/presentation/product_detail/product_detail_screen.dart';
 import 'package:pos_superbootcamp/presentation/splash/splash_screen.dart';
@@ -82,6 +83,11 @@ final GoRouter appGlobalRouter = GoRouter(
       path: AppRoutes.nrPayment,
       name: AppRoutes.nrPayment,
       builder: (context, state) => PaymentScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.nrOrderDetail,
+      name: AppRoutes.nrOrderDetail,
+      builder: (context, state) => const OrderDetailScreen(),
     ),
   ],
 );

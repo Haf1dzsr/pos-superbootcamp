@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/constants/images.dart';
 import 'package:pos_superbootcamp/common/extensions/int_ext.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
@@ -8,6 +11,9 @@ import 'package:pos_superbootcamp/common/widgets/button.dart';
 import 'package:pos_superbootcamp/common/widgets/dash_divider.dart';
 import 'package:pos_superbootcamp/data/datasources/product_remote_datasource.dart';
 import 'package:pos_superbootcamp/data/models/cart_model.dart';
+import 'package:pos_superbootcamp/data/models/order_model.dart';
+import 'package:pos_superbootcamp/presentation/app_route_names.dart';
+import 'package:pos_superbootcamp/presentation/payment/cubits/cubit/order_cubit.dart';
 import 'package:pos_superbootcamp/presentation/payment/widgets/payment_option_card_widget.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -199,9 +205,53 @@ class PaymentScreen extends StatelessWidget {
                       const SizedBox(
                         height: 16,
                       ),
-                      Button.filled(
-                        onPressed: () {},
-                        label: 'Lanjutkan',
+                      BlocConsumer<OrderCubit, OrderState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            success: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Order berhasil dibuat'),
+                                ),
+                              );
+                              context.pushNamed(AppRoutes.nrOrderDetail);
+                            },
+                            orElse: () {},
+                          );
+                        },
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            loading: () {
+                              return const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(AppColor.primary),
+                              );
+                            },
+                            orElse: () {
+                              return Button.filled(
+                                onPressed: () {
+                                  final now = Timestamp.now();
+                                  final order = OrderModel(
+                                    userId: currentUser!.uid,
+                                    products: data,
+                                    biayaAdmin: biayaAdmin.value,
+                                    orderStatus: 'Success',
+                                    paymentMethod: selectedPaymentMethod.value,
+                                    priceTotal:
+                                        cartPriceTotal + biayaAdmin.value,
+                                    createdAt: now,
+                                  );
+
+                                  context.read<OrderCubit>().createOrder(
+                                        order: order,
+                                        uid: currentUser!.uid,
+                                      );
+                                },
+                                label: 'Lanjutkan',
+                              );
+                            },
+                          );
+                        },
                       ),
                     ],
                   );
