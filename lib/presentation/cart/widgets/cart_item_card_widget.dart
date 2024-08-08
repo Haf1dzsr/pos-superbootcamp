@@ -35,18 +35,23 @@ class CartItemCardWidget extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColor.primary,
+                    width: 2,
+                  ),
                 ),
                 child: Image.network(
                   width: 85,
                   height: 85,
+                  fit: BoxFit.cover,
                   cartItem.imageUrl ?? '',
                   errorBuilder: (context, error, stackTrace) {
                     return const Icon(Icons.image);
                   },
                 ),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
