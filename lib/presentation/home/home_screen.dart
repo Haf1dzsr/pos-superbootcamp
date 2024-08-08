@@ -19,33 +19,33 @@ class HomeScreen extends StatelessWidget {
         elevation: 0.0,
         actions: [
           StreamBuilder<List<CartModel>>(
-              stream:
-                  ProductRemoteDatasource.instance.getAllCartItemsByUserId(),
-              builder: (context, snapshot) {
-                final cartItems = snapshot.data ?? [];
-                return Badge(
-                  label: Text(cartItems.length.toString()),
-                  offset: const Offset(-10, 0),
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      right: 16,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: AppColor.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.shopping_cart,
-                        color: AppColor.white,
-                      ),
-                      onPressed: () {
-                        context.pushNamed(AppRoutes.nrCart);
-                      },
-                    ),
+            stream: ProductRemoteDatasource.instance.getAllCartItemsByUserId(),
+            builder: (context, snapshot) {
+              final cartItems = snapshot.data ?? [];
+              return Badge(
+                label: Text(cartItems.length.toString()),
+                offset: const Offset(-10, 0),
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    right: 16,
                   ),
-                );
-              }),
+                  decoration: const BoxDecoration(
+                    color: AppColor.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.shopping_cart,
+                      color: AppColor.white,
+                    ),
+                    onPressed: () {
+                      context.pushNamed(AppRoutes.nrCart);
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: SafeArea(
