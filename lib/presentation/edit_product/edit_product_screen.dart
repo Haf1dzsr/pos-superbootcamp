@@ -35,6 +35,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        if (widget.product.stock! < 3) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: AppColor.error,
+              content: Text('Stok produk ${widget.product.name} hampir habis'),
+            ),
+          );
+        }
+      },
+    );
+
     productNameC.text = widget.product.name!;
     productDescC.text = widget.product.description!;
     productPriceC.text = widget.product.price!.toString();
