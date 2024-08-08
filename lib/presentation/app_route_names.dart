@@ -11,4 +11,6 @@ class AppRoutes {
   static const String nrEditProduct = '/edit-product';
   static const String nrPayment = '/payment';
   static const String nrOrderDetail = '/order-detail';
+  static const String nrReport = '/report';
+  static const String nrReportDetail = '/report-detail';
 }

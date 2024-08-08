@@ -37,11 +37,13 @@ class OrderRemoteDatasource {
         .collection('orders')
         .where('userId', isEqualTo: uid)
         .snapshots()
-        .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => OrderModel.fromJson(doc.data()))
-          .toList();
-    });
+        .map(
+      (snapshot) {
+        return snapshot.docs
+            .map((doc) => OrderModel.fromJson(doc.data()))
+            .toList();
+      },
+    );
     return orders;
   }
 }

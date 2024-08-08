@@ -14,6 +14,8 @@ import 'package:pos_superbootcamp/presentation/main/main_screen.dart';
 import 'package:pos_superbootcamp/presentation/order_detail/order_detail_screen.dart';
 import 'package:pos_superbootcamp/presentation/payment/payment_screen.dart';
 import 'package:pos_superbootcamp/presentation/product_detail/product_detail_screen.dart';
+import 'package:pos_superbootcamp/presentation/report/report_detail_screen.dart';
+import 'package:pos_superbootcamp/presentation/report/report_screen.dart';
 import 'package:pos_superbootcamp/presentation/splash/splash_screen.dart';
 
 final GoRouter appGlobalRouter = GoRouter(
@@ -91,6 +93,19 @@ final GoRouter appGlobalRouter = GoRouter(
       builder: (context, state) {
         final OrderModel order = state.extra as OrderModel;
         return OrderDetailScreen(order: order);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.nrReport,
+      name: AppRoutes.nrReport,
+      builder: (context, state) => ReportScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.nrReportDetail,
+      name: AppRoutes.nrReportDetail,
+      builder: (context, state) {
+        final OrderModel order = state.extra as OrderModel;
+        return ReportDetailScreen(order: order);
       },
     ),
   ],
