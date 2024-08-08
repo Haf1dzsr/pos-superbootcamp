@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,7 +20,8 @@ class ProductRemoteDatasource {
       String? imageUrl;
 
       if (image != null) {
-        imageName = image.path.split('/').last;
+        imageName =
+            '${DateTime.now().millisecondsSinceEpoch}_${image.path.split('/').last}';
         final storageRef =
             FirebaseStorage.instance.ref().child('product_images/$imageName');
         await storageRef.putFile(image);
@@ -32,6 +34,67 @@ class ProductRemoteDatasource {
       final productToAdd = product.copyWith(
           id: doc.id, imageName: imageName, imageUrl: imageUrl);
       await doc.set(productToAdd.toJson());
+
+      return right(unit);
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  Future<Either<String, Unit>> updateProduct(
+      ProductModel product, File? newImage) async {
+    log("product image name: ${product.imageName}");
+    try {
+      String? newImageName;
+      String? newImageUrl;
+
+      if (newImage != null) {
+        if (product.imageName != null) {
+          final oldImageRef = FirebaseStorage.instance
+              .ref()
+              .child('product_images/${product.imageName}');
+          await oldImageRef.delete();
+        }
+        newImageName =
+            '${DateTime.now().millisecondsSinceEpoch}_${newImage.path.split('/').last}';
+        final newImageRef = FirebaseStorage.instance
+            .ref()
+            .child('product_images/$newImageName');
+        await newImageRef.putFile(newImage);
+        newImageUrl = await newImageRef.getDownloadURL();
+      }
+
+      final productCol = FirebaseFirestore.instance.collection('products');
+      final doc = productCol.doc(product.id);
+
+      final productToUpdate = product.copyWith(
+        imageName: newImage != null ? newImageName : product.imageName,
+        imageUrl: newImage != null ? newImageUrl : product.imageUrl,
+      );
+
+      log({productToUpdate.toJson()}.toString());
+
+      await doc.update(productToUpdate.toJson());
+
+      return right(unit);
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  Future<Either<String, Unit>> deleteProduct(ProductModel product) async {
+    try {
+      if (product.imageName != null) {
+        final imageRef = FirebaseStorage.instance
+            .ref()
+            .child('product_images/${product.imageName}');
+        await imageRef.delete();
+      }
+
+      final productCol = FirebaseFirestore.instance.collection('products');
+      final doc = productCol.doc(product.id);
+
+      await doc.delete();
 
       return right(unit);
     } catch (e) {

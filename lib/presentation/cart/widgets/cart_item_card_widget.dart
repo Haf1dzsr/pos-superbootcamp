@@ -34,6 +34,10 @@ class CartItemCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                clipBehavior: Clip.antiAlias,
+                alignment: Alignment.center,
+                width: 85,
+                height: 85,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
