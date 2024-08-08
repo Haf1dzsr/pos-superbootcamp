@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/extensions/int_ext.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
@@ -7,10 +9,13 @@ import 'package:pos_superbootcamp/common/widgets/button.dart';
 import 'package:pos_superbootcamp/common/widgets/dash_divider.dart';
 import 'package:pos_superbootcamp/data/datasources/product_remote_datasource.dart';
 import 'package:pos_superbootcamp/data/models/cart_model.dart';
+import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/cart/widgets/cart_item_card_widget.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+  CartScreen({super.key});
+
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,8 @@ class CartScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
         child: StreamBuilder<List<CartModel>>(
-          stream: ProductRemoteDatasource.instance.getAllCartItemsByUserId(),
+          stream: ProductRemoteDatasource.instance
+              .getAllCartItemsByUserId(uid: currentUser!.uid),
           builder: (context, snapshot) {
             final cartItems = snapshot.data ?? [];
             if (snapshot.hasError) {
@@ -74,7 +80,8 @@ class CartScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16, bottom: 0),
           child: StreamBuilder<List<CartModel>>(
-            stream: ProductRemoteDatasource.instance.getAllCartItemsByUserId(),
+            stream: ProductRemoteDatasource.instance
+                .getAllCartItemsByUserId(uid: currentUser!.uid),
             builder: (context, snapshot) {
               final data = snapshot.data ?? [];
 
@@ -153,14 +160,13 @@ class CartScreen extends StatelessWidget {
                           },
                         );
                       } else {
-                        //!
-                        // cart isn't empty handler
+                        context.pushNamed(AppRoutes.nrPayment);
                       }
                     },
                     height: 40,
                     width: MediaQuery.of(context).size.width - 32,
                     fontSize: 14,
-                    label: 'Bayar',
+                    label: 'Buat Pesanan',
                     textColor: AppColor.white,
                   ),
                 ],

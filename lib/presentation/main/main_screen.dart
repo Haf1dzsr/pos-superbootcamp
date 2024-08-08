@@ -9,7 +9,7 @@ class MainScreen extends StatelessWidget {
   final ValueNotifier<int> _selectedIndex = ValueNotifier<int>(0);
 
   final List<Widget> _pages = [
-    const HomeScreen(),
+    HomeScreen(),
     const InventoryScreen(),
     const Center(child: Text('Report')),
   ];
