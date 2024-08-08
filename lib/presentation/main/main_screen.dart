@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/presentation/home/home_screen.dart';
+import 'package:pos_superbootcamp/presentation/inventory/inventory_screen.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
@@ -9,6 +10,7 @@ class MainScreen extends StatelessWidget {
 
   final List<Widget> _pages = [
     const HomeScreen(),
+    const InventoryScreen(),
     const Center(child: Text('Report')),
   ];
 
@@ -36,7 +38,11 @@ class MainScreen extends StatelessWidget {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.payment),
+                icon: Icon(Icons.inventory_rounded),
+                label: 'Inventory',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_chart_rounded),
                 label: 'Report',
               ),
             ],

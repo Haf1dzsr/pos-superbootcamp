@@ -1,53 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
+import 'package:pos_superbootcamp/common/widgets/button.dart';
 import 'package:pos_superbootcamp/data/datasources/product_remote_datasource.dart';
-import 'package:pos_superbootcamp/data/models/cart_model.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
 import 'package:pos_superbootcamp/presentation/app_route_names.dart';
-import 'package:pos_superbootcamp/presentation/home/widgets/product_card_widget.dart';
+import 'package:pos_superbootcamp/presentation/inventory/widgets/inventory_product_card_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class InventoryScreen extends StatelessWidget {
+  const InventoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        actions: [
-          StreamBuilder<List<CartModel>>(
-              stream:
-                  ProductRemoteDatasource.instance.getAllCartItemsByUserId(),
-              builder: (context, snapshot) {
-                final cartItems = snapshot.data ?? [];
-                return Badge(
-                  label: Text(cartItems.length.toString()),
-                  offset: const Offset(-10, 0),
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      right: 16,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: AppColor.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.shopping_cart,
-                        color: AppColor.white,
-                      ),
-                      onPressed: () {
-                        context.pushNamed(AppRoutes.nrCart);
-                      },
-                    ),
-                  ),
-                );
-              }),
-        ],
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -90,7 +55,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                       itemCount: products.length,
                       itemBuilder: (context, index) {
-                        return ProductCardWidget(product: products[index]);
+                        return InventoryProductCardWidget(
+                            product: products[index]);
                       },
                     );
                   } else {
@@ -102,6 +68,19 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+      floatingActionButton: Button.filled(
+        width: MediaQuery.of(context).size.width * 0.45,
+        onPressed: () {
+          context.pushNamed(AppRoutes.nrAddProduct);
+        },
+        label: 'Tambah Produk',
+        fontSize: 14,
+        icon: const Icon(
+          Icons.add,
+          color: AppColor.white,
+          size: 16,
         ),
       ),
     );

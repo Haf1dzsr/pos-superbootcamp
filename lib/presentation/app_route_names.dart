@@ -7,4 +7,6 @@ class AppRoutes {
   static const String nrAddProduct = '/add-product';
   static const String nrProductDetail = '/product-detail';
   static const String nrCart = '/cart';
+  static const String nrInventory = '/inventory';
+  static const String nrEditProduct = '/edit-product';
 }

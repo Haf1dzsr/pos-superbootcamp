@@ -5,8 +5,10 @@ import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/auth/screens/login_screen.dart';
 import 'package:pos_superbootcamp/presentation/auth/screens/register_screen.dart';
 import 'package:pos_superbootcamp/presentation/cart/cart_screen.dart';
+import 'package:pos_superbootcamp/presentation/edit_product/edit_product_screen.dart';
 import 'package:pos_superbootcamp/presentation/globals.dart';
 import 'package:pos_superbootcamp/presentation/home/home_screen.dart';
+import 'package:pos_superbootcamp/presentation/inventory/inventory_screen.dart';
 import 'package:pos_superbootcamp/presentation/main/main_screen.dart';
 import 'package:pos_superbootcamp/presentation/product_detail/product_detail_screen.dart';
 import 'package:pos_superbootcamp/presentation/splash/splash_screen.dart';
@@ -59,6 +61,21 @@ final GoRouter appGlobalRouter = GoRouter(
       path: AppRoutes.nrCart,
       name: AppRoutes.nrCart,
       builder: (context, state) => const CartScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.nrInventory,
+      name: AppRoutes.nrInventory,
+      builder: (context, state) => const InventoryScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.nrEditProduct,
+      name: AppRoutes.nrEditProduct,
+      builder: (context, state) {
+        final ProductModel product = state.extra as ProductModel;
+        return EditProductScreen(
+          product: product,
+        );
+      },
     ),
   ],
 );
