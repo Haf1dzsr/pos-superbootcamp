@@ -19,7 +19,7 @@ class OrderDetailProductCardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: AppColor.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 4,
             offset: const Offset(0, 2),
@@ -72,8 +72,10 @@ class OrderDetailProductCardWidget extends StatelessWidget {
                     children: [
                       Text(
                         cartItem.priceTotal!.currencyFormatRp,
-                        style: appTheme.textTheme.titleLarge!
-                            .copyWith(fontSize: 18),
+                        style: appTheme.textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
                       ),
                     ],
                   ),
@@ -87,14 +89,18 @@ class OrderDetailProductCardWidget extends StatelessWidget {
             child: SizedBox(
               child: Row(
                 children: [
-                  const Text(
+                  Text(
                     'qty:  ',
-                    style: TextStyle(fontSize: 20, color: AppColor.primary100),
+                    style: appTheme.textTheme.bodySmall!.copyWith(
+                      color: AppColor.primary100,
+                    ),
                   ),
                   Text(
                     '${cartItem.quantity}',
-                    style:
-                        const TextStyle(fontSize: 20, color: AppColor.primary),
+                    style: appTheme.textTheme.bodySmall!.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        color: AppColor.primary),
                   ),
                 ],
               ),

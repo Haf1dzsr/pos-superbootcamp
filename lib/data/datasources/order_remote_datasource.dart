@@ -8,7 +8,7 @@ class OrderRemoteDatasource {
   OrderRemoteDatasource._internal();
   factory OrderRemoteDatasource() => instance;
 
-  Future<Either<String, Unit>> createOrder({
+  Future<Either<String, OrderModel>> createOrder({
     required OrderModel order,
     required String userId,
   }) async {
@@ -26,9 +26,22 @@ class OrderRemoteDatasource {
         createdAt: order.createdAt,
       );
       await doc.set(orderToAdd.toJson());
-      return right(unit);
+      return right(orderToAdd);
     } catch (e) {
       return left(e.toString());
     }
+  }
+
+  Stream<List<OrderModel>> getOrdersByUserId({required String uid}) {
+    final orders = FirebaseFirestore.instance
+        .collection('orders')
+        .where('userId', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => OrderModel.fromJson(doc.data()))
+          .toList();
+    });
+    return orders;
   }
 }

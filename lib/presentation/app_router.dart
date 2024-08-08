@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:pos_superbootcamp/data/models/order_model.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
 import 'package:pos_superbootcamp/presentation/add_product/add_product_screen.dart';
 import 'package:pos_superbootcamp/presentation/app_route_names.dart';
@@ -87,7 +88,10 @@ final GoRouter appGlobalRouter = GoRouter(
     GoRoute(
       path: AppRoutes.nrOrderDetail,
       name: AppRoutes.nrOrderDetail,
-      builder: (context, state) => const OrderDetailScreen(),
+      builder: (context, state) {
+        final OrderModel order = state.extra as OrderModel;
+        return OrderDetailScreen(order: order);
+      },
     ),
   ],
 );

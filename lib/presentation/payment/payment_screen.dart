@@ -208,13 +208,14 @@ class PaymentScreen extends StatelessWidget {
                       BlocConsumer<OrderCubit, OrderState>(
                         listener: (context, state) {
                           state.maybeWhen(
-                            success: () {
+                            success: (order) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Order berhasil dibuat'),
                                 ),
                               );
-                              context.pushNamed(AppRoutes.nrOrderDetail);
+                              context.pushNamed(AppRoutes.nrOrderDetail,
+                                  extra: order);
                             },
                             orElse: () {},
                           );
