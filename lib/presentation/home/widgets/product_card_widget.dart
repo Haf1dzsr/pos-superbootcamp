@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/extensions/int_ext.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
+import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 
 class ProductCardWidget extends StatelessWidget {
   const ProductCardWidget({
@@ -15,7 +17,9 @@ class ProductCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        context.pushNamed(AppRoutes.nrProductDetail, extra: product);
+      },
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -39,8 +43,9 @@ class ProductCardWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 width: 120,
                 height: 120,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  border: Border.all(color: AppColor.primary, width: 2),
                   color: AppColor.primary,
                 ),
                 child: ClipOval(
@@ -91,7 +96,7 @@ class ProductCardWidget extends StatelessWidget {
                         color: AppColor.primary,
                       ),
                       child: const Icon(
-                        Icons.edit,
+                        Icons.add,
                         size: 16,
                         color: AppColor.white,
                       ),

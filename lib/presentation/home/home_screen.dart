@@ -13,6 +13,33 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        actions: [
+          Badge(
+            label: const Text('1'),
+            offset: const Offset(-10, 0),
+            child: Container(
+              margin: const EdgeInsets.only(
+                right: 16,
+              ),
+              decoration: const BoxDecoration(
+                color: AppColor.primary,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.shopping_cart,
+                  color: AppColor.white,
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
