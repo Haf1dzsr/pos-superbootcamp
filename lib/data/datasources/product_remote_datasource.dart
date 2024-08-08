@@ -109,9 +109,10 @@ class ProductRemoteDatasource {
             .toList());
   }
 
-  Stream<List<CartModel>> getAllCartItemsByUserId() {
+  Stream<List<CartModel>> getAllCartItemsByUserId({required String uid}) {
     final cartItems = FirebaseFirestore.instance
         .collection('carts')
+        .where('userId', isEqualTo: uid)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => CartModel.fromJson(doc.data()))

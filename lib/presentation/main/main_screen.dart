@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/presentation/home/home_screen.dart';
 import 'package:pos_superbootcamp/presentation/inventory/inventory_screen.dart';
+import 'package:pos_superbootcamp/presentation/report/report_screen.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({super.key});
@@ -9,9 +10,9 @@ class MainScreen extends StatelessWidget {
   final ValueNotifier<int> _selectedIndex = ValueNotifier<int>(0);
 
   final List<Widget> _pages = [
-    const HomeScreen(),
+    HomeScreen(),
     const InventoryScreen(),
-    const Center(child: Text('Report')),
+    ReportScreen(),
   ];
 
   void _onItemTapped(int index) {

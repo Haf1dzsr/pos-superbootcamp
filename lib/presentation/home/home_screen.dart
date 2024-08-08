@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
@@ -8,7 +9,9 @@ import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/home/widgets/product_card_widget.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,8 @@ class HomeScreen extends StatelessWidget {
         elevation: 0.0,
         actions: [
           StreamBuilder<List<CartModel>>(
-            stream: ProductRemoteDatasource.instance.getAllCartItemsByUserId(),
+            stream: ProductRemoteDatasource.instance
+                .getAllCartItemsByUserId(uid: currentUser!.uid),
             builder: (context, snapshot) {
               final cartItems = snapshot.data ?? [];
               return Badge(
