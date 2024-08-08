@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +10,7 @@ import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
 import 'package:pos_superbootcamp/common/widgets/button.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
+import 'package:pos_superbootcamp/data/utils/local_notification_helper.dart';
 import 'package:pos_superbootcamp/presentation/product_detail/cubits/add_product_to_cart/add_product_to_cart_cubit.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -186,12 +190,17 @@ class ProductDetailScreen extends StatelessWidget {
                     BlocConsumer<AddProductToCartCubit, AddProductToCartState>(
                   listener: (context, state) {
                     state.maybeWhen(
-                      success: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Produk berhasil ditambahkan'),
-                          ),
+                      success: () async {
+                        NotificationHelper.payload.value = "";
+                        await NotificationHelper.flutterLocalNotificationsPlugin
+                            .show(
+                          Random().nextInt(99),
+                          "Berhasil menambahkan produk",
+                          "${product.name} berhasil ditambahkan ke keranjang",
+                          payload: jsonEncode({"data": "test"}),
+                          NotificationHelper.notificationDetails,
                         );
+
                         context.pop();
                       },
                       error: (failure) {
