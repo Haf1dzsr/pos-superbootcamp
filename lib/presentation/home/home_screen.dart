@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/widgets/button.dart';
 import 'package:pos_superbootcamp/data/datasources/product_remote_datasource.dart';
+import 'package:pos_superbootcamp/data/models/cart_model.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
 import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/home/widgets/product_card_widget.dart';
@@ -18,28 +19,34 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
-          Badge(
-            label: const Text('1'),
-            offset: const Offset(-10, 0),
-            child: Container(
-              margin: const EdgeInsets.only(
-                right: 16,
-              ),
-              decoration: const BoxDecoration(
-                color: AppColor.primary,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: AppColor.white,
-                ),
-                onPressed: () {
-                  context.pushNamed(AppRoutes.nrCart);
-                },
-              ),
-            ),
-          ),
+          StreamBuilder<List<CartModel>>(
+              stream:
+                  ProductRemoteDatasource.instance.getAllCartItemsByUserId(),
+              builder: (context, snapshot) {
+                final cartItems = snapshot.data ?? [];
+                return Badge(
+                  label: Text(cartItems.length.toString()),
+                  offset: const Offset(-10, 0),
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      right: 16,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: AppColor.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.shopping_cart,
+                        color: AppColor.white,
+                      ),
+                      onPressed: () {
+                        context.pushNamed(AppRoutes.nrCart);
+                      },
+                    ),
+                  ),
+                );
+              }),
         ],
       ),
       body: SafeArea(
