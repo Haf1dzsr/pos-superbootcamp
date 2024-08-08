@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/extensions/int_ext.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
 import 'package:pos_superbootcamp/common/widgets/button.dart';
-import 'package:pos_superbootcamp/data/datasources/product_remote_datasource.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
 import 'package:pos_superbootcamp/presentation/product_detail/cubits/add_product_to_cart/add_product_to_cart_cubit.dart';
 
@@ -151,80 +151,84 @@ class ProductDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: ValueListenableBuilder(
-          valueListenable: totalItem,
-          builder: (context, totItem, _) {
-            return ValueListenableBuilder(
-              valueListenable: priceTotal,
-              builder: (context, totPrice, _) {
-                return Button.filled(
-                  onPressed: () async {
-                    await ProductRemoteDatasource.instance.addProductToCart(
-                      userId: currentUser!.uid,
-                      product: product,
-                      quantity: totItem,
-                    );
+        valueListenable: totalItem,
+        builder: (context, totItem, _) {
+          return ValueListenableBuilder(
+            valueListenable: priceTotal,
+            builder: (context, totPrice, _) {
+              return Button.filled(
+                onPressed: () async {
+                  if (totItem > product.stock!) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.only(
                           bottom: MediaQuery.of(context).size.height * 0.8,
                         ),
-                        backgroundColor: AppColor.primary,
+                        backgroundColor: AppColor.error,
                         content: Text(
-                          'Produk ${product.name} berhasil ditambahkan ke keranjang',
+                          'Stok ${product.name} tidak cukup',
                         ),
                       ),
                     );
-                    Navigator.pop(context);
+                  } else {
+                    context.read<AddProductToCartCubit>().addProductToCart(
+                          userId: currentUser!.uid,
+                          product: product,
+                          quantity: totItem,
+                        );
+                  }
+                },
+                height: 40,
+                width: MediaQuery.of(context).size.width - 32,
+                fontSize: 14,
+                icon:
+                    BlocConsumer<AddProductToCartCubit, AddProductToCartState>(
+                  listener: (context, state) {
+                    state.maybeWhen(
+                      success: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Produk berhasil ditambahkan'),
+                          ),
+                        );
+                        context.pop();
+                      },
+                      error: (failure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(failure),
+                          ),
+                        );
+                      },
+                      orElse: () {},
+                    );
                   },
-                  height: 40,
-                  width: MediaQuery.of(context).size.width - 32,
-                  fontSize: 14,
-                  icon: BlocConsumer<AddProductToCartCubit,
-                      AddProductToCartState>(
-                    listener: (context, state) {
-                      state.maybeWhen(
-                        success: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Produk berhasil ditambahkan'),
-                            ),
-                          );
-                        },
-                        error: (failure) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(failure),
-                            ),
-                          );
-                        },
-                        orElse: () {},
-                      );
-                    },
-                    builder: (context, state) {
-                      return state.maybeWhen(
-                        loading: () {
-                          return const CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(AppColor.white),
-                          );
-                        },
-                        orElse: () {
-                          return const Icon(
-                            Icons.shopping_cart,
-                            color: AppColor.white,
-                            size: 16,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  label:
-                      'Tambah ke Keranjang - ${(product.price! * totItem).currencyFormatRp}',
-                  textColor: AppColor.white,
-                );
-              },
-            );
-          }),
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loading: () {
+                        return const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(AppColor.white),
+                        );
+                      },
+                      orElse: () {
+                        return const Icon(
+                          Icons.shopping_cart,
+                          color: AppColor.white,
+                          size: 16,
+                        );
+                      },
+                    );
+                  },
+                ),
+                label:
+                    'Tambah ke Keranjang - ${(product.price! * totItem).currencyFormatRp}',
+                textColor: AppColor.white,
+              );
+            },
+          );
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
