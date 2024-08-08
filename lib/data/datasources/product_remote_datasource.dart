@@ -56,7 +56,7 @@ class ProductRemoteDatasource {
     return cartItems;
   }
 
-  Future<void> addProductToCart({
+  Future<Either<String, Unit>> addProductToCart({
     required String userId,
     required ProductModel product,
     required int quantity,
@@ -93,8 +93,9 @@ class ProductRemoteDatasource {
           },
         );
       }
+      return right(unit);
     } on FirebaseException catch (e) {
-      throw Exception(e.message);
+      return left(e.message!);
     }
   }
 
