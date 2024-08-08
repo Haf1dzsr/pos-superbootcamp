@@ -4,6 +4,7 @@ import 'package:pos_superbootcamp/presentation/add_product/cubits/product_cubit/
 import 'package:pos_superbootcamp/presentation/app_router.dart';
 import 'package:pos_superbootcamp/presentation/auth/blocs/login/login_bloc.dart';
 import 'package:pos_superbootcamp/presentation/auth/blocs/register/register_bloc.dart';
+import 'package:pos_superbootcamp/presentation/product_detail/cubits/add_product_to_cart/add_product_to_cart_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ProductCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AddProductToCartCubit(),
         ),
       ],
       child: MaterialApp.router(

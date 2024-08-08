@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:pos_superbootcamp/data/models/cart_model.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
 
 class ProductRemoteDatasource {
@@ -25,14 +26,93 @@ class ProductRemoteDatasource {
         imageUrl = await storageRef.getDownloadURL();
       }
 
-      final productToAdd =
-          product.copyWith(imageName: imageName, imageUrl: imageUrl);
-      await FirebaseFirestore.instance
-          .collection('products')
-          .add(productToAdd.toJson());
+      final productCol = FirebaseFirestore.instance.collection('products');
+      final doc = productCol.doc();
+
+      final productToAdd = product.copyWith(
+          id: doc.id, imageName: imageName, imageUrl: imageUrl);
+      await doc.set(productToAdd.toJson());
+
       return right(unit);
     } catch (e) {
       return left(e.toString());
     }
+  }
+
+  Stream<List<ProductModel>> getProducts() {
+    return FirebaseFirestore.instance.collection('products').snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList());
+  }
+
+  Stream<List<CartModel>> getAllCartItemsByUserId() {
+    final cartItems = FirebaseFirestore.instance
+        .collection('carts')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => CartModel.fromJson(doc.data()))
+            .toList());
+    return cartItems;
+  }
+
+  Future<Either<String, Unit>> addProductToCart({
+    required String userId,
+    required ProductModel product,
+    required int quantity,
+  }) async {
+    final cartCol = FirebaseFirestore.instance.collection('carts');
+    try {
+      final querySnapshot = await cartCol
+          .where('userId', isEqualTo: userId)
+          .where('id', isEqualTo: product.id)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        final cartDoc = cartCol.doc();
+        final cartToAdd = CartModel(
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          quantity: quantity,
+          priceTotal: product.price! * quantity,
+          imageName: product.imageName,
+          imageUrl: product.imageUrl,
+          cartId: cartDoc.id,
+          userId: userId,
+        );
+        await cartDoc.set(cartToAdd.toJson());
+      } else {
+        final doc = querySnapshot.docs.first;
+        final currentQuantity = doc['quantity'] as int;
+        await doc.reference.update(
+          {
+            'quantity': currentQuantity + quantity,
+            'priceTotal': product.price! * (currentQuantity + quantity),
+          },
+        );
+      }
+      return right(unit);
+    } on FirebaseException catch (e) {
+      return left(e.message!);
+    }
+  }
+
+  Future<void> updateCartItemQuantity(
+      {required CartModel cart, required int value}) async {
+    final doc = FirebaseFirestore.instance.collection('carts').doc(cart.cartId);
+
+    await doc.update(
+      {
+        'quantity': value,
+        'priceTotal': (value * cart.price!),
+      },
+    );
+  }
+
+  Future<void> deleteItemfromCart({required CartModel cart}) async {
+    final doc = FirebaseFirestore.instance.collection('carts').doc(cart.cartId);
+    await doc.delete();
   }
 }

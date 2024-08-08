@@ -1,11 +1,14 @@
 import 'package:go_router/go_router.dart';
+import 'package:pos_superbootcamp/data/models/product_model.dart';
 import 'package:pos_superbootcamp/presentation/add_product/add_product_screen.dart';
 import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/auth/screens/login_screen.dart';
 import 'package:pos_superbootcamp/presentation/auth/screens/register_screen.dart';
+import 'package:pos_superbootcamp/presentation/cart/cart_screen.dart';
 import 'package:pos_superbootcamp/presentation/globals.dart';
 import 'package:pos_superbootcamp/presentation/home/home_screen.dart';
 import 'package:pos_superbootcamp/presentation/main/main_screen.dart';
+import 'package:pos_superbootcamp/presentation/product_detail/product_detail_screen.dart';
 import 'package:pos_superbootcamp/presentation/splash/splash_screen.dart';
 
 final GoRouter appGlobalRouter = GoRouter(
@@ -41,6 +44,21 @@ final GoRouter appGlobalRouter = GoRouter(
       path: AppRoutes.nrAddProduct,
       name: AppRoutes.nrAddProduct,
       builder: (context, state) => const AddProductScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.nrProductDetail,
+      name: AppRoutes.nrProductDetail,
+      builder: (context, state) {
+        final ProductModel product = state.extra as ProductModel;
+        return ProductDetailScreen(
+          product: product,
+        );
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.nrCart,
+      name: AppRoutes.nrCart,
+      builder: (context, state) => const CartScreen(),
     ),
   ],
 );
