@@ -82,6 +82,26 @@ class ProductRemoteDatasource {
     }
   }
 
+  Future<Either<String, Unit>> deleteProduct(ProductModel product) async {
+    try {
+      if (product.imageName != null) {
+        final imageRef = FirebaseStorage.instance
+            .ref()
+            .child('product_images/${product.imageName}');
+        await imageRef.delete();
+      }
+
+      final productCol = FirebaseFirestore.instance.collection('products');
+      final doc = productCol.doc(product.id);
+
+      await doc.delete();
+
+      return right(unit);
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
+
   Stream<List<ProductModel>> getProducts() {
     return FirebaseFirestore.instance.collection('products').snapshots().map(
         (snapshot) => snapshot.docs

@@ -24,6 +24,7 @@ mixin _$EditProductState {
     required TResult Function(String message) error,
     required TResult Function(File image) imagePicked,
     required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,6 +35,7 @@ mixin _$EditProductState {
     TResult? Function(String message)? error,
     TResult? Function(File image)? imagePicked,
     TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,6 +46,7 @@ mixin _$EditProductState {
     TResult Function(String message)? error,
     TResult Function(File image)? imagePicked,
     TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +58,7 @@ mixin _$EditProductState {
     required TResult Function(_Error value) error,
     required TResult Function(_ImagePicked value) imagePicked,
     required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +69,7 @@ mixin _$EditProductState {
     TResult? Function(_Error value)? error,
     TResult? Function(_ImagePicked value)? imagePicked,
     TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +80,7 @@ mixin _$EditProductState {
     TResult Function(_Error value)? error,
     TResult Function(_ImagePicked value)? imagePicked,
     TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -142,6 +148,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(String message) error,
     required TResult Function(File image) imagePicked,
     required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
   }) {
     return initial();
   }
@@ -155,6 +162,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(String message)? error,
     TResult? Function(File image)? imagePicked,
     TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
   }) {
     return initial?.call();
   }
@@ -168,6 +176,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(String message)? error,
     TResult Function(File image)? imagePicked,
     TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -185,6 +194,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Error value) error,
     required TResult Function(_ImagePicked value) imagePicked,
     required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return initial(this);
   }
@@ -198,6 +208,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Error value)? error,
     TResult? Function(_ImagePicked value)? imagePicked,
     TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return initial?.call(this);
   }
@@ -211,6 +222,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Error value)? error,
     TResult Function(_ImagePicked value)? imagePicked,
     TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -268,6 +280,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(String message) error,
     required TResult Function(File image) imagePicked,
     required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
   }) {
     return loading();
   }
@@ -281,6 +294,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(String message)? error,
     TResult? Function(File image)? imagePicked,
     TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
   }) {
     return loading?.call();
   }
@@ -294,6 +308,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(String message)? error,
     TResult Function(File image)? imagePicked,
     TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -311,6 +326,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Error value) error,
     required TResult Function(_ImagePicked value) imagePicked,
     required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return loading(this);
   }
@@ -324,6 +340,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Error value)? error,
     TResult? Function(_ImagePicked value)? imagePicked,
     TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return loading?.call(this);
   }
@@ -337,6 +354,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Error value)? error,
     TResult Function(_ImagePicked value)? imagePicked,
     TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -394,6 +412,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function(String message) error,
     required TResult Function(File image) imagePicked,
     required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
   }) {
     return success();
   }
@@ -407,6 +426,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function(String message)? error,
     TResult? Function(File image)? imagePicked,
     TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
   }) {
     return success?.call();
   }
@@ -420,6 +440,7 @@ class _$SuccessImpl implements _Success {
     TResult Function(String message)? error,
     TResult Function(File image)? imagePicked,
     TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -437,6 +458,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Error value) error,
     required TResult Function(_ImagePicked value) imagePicked,
     required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return success(this);
   }
@@ -450,6 +472,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Error value)? error,
     TResult? Function(_ImagePicked value)? imagePicked,
     TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return success?.call(this);
   }
@@ -463,6 +486,7 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Error value)? error,
     TResult Function(_ImagePicked value)? imagePicked,
     TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -546,6 +570,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(String message) error,
     required TResult Function(File image) imagePicked,
     required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
   }) {
     return error(message);
   }
@@ -559,6 +584,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(String message)? error,
     TResult? Function(File image)? imagePicked,
     TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
   }) {
     return error?.call(message);
   }
@@ -572,6 +598,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(String message)? error,
     TResult Function(File image)? imagePicked,
     TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -589,6 +616,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Error value) error,
     required TResult Function(_ImagePicked value) imagePicked,
     required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return error(this);
   }
@@ -602,6 +630,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Error value)? error,
     TResult? Function(_ImagePicked value)? imagePicked,
     TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return error?.call(this);
   }
@@ -615,6 +644,7 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Error value)? error,
     TResult Function(_ImagePicked value)? imagePicked,
     TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -653,10 +683,10 @@ class __$$ImagePickedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = freezed,
+    Object? image = null,
   }) {
     return _then(_$ImagePickedImpl(
-      freezed == image
+      null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as File,
@@ -682,12 +712,11 @@ class _$ImagePickedImpl implements _ImagePicked {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImagePickedImpl &&
-            const DeepCollectionEquality().equals(other.image, image));
+            (identical(other.image, image) || other.image == image));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(image));
+  int get hashCode => Object.hash(runtimeType, image);
 
   @JsonKey(ignore: true)
   @override
@@ -704,6 +733,7 @@ class _$ImagePickedImpl implements _ImagePicked {
     required TResult Function(String message) error,
     required TResult Function(File image) imagePicked,
     required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
   }) {
     return imagePicked(image);
   }
@@ -717,6 +747,7 @@ class _$ImagePickedImpl implements _ImagePicked {
     TResult? Function(String message)? error,
     TResult? Function(File image)? imagePicked,
     TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
   }) {
     return imagePicked?.call(image);
   }
@@ -730,6 +761,7 @@ class _$ImagePickedImpl implements _ImagePicked {
     TResult Function(String message)? error,
     TResult Function(File image)? imagePicked,
     TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (imagePicked != null) {
@@ -747,6 +779,7 @@ class _$ImagePickedImpl implements _ImagePicked {
     required TResult Function(_Error value) error,
     required TResult Function(_ImagePicked value) imagePicked,
     required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return imagePicked(this);
   }
@@ -760,6 +793,7 @@ class _$ImagePickedImpl implements _ImagePicked {
     TResult? Function(_Error value)? error,
     TResult? Function(_ImagePicked value)? imagePicked,
     TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return imagePicked?.call(this);
   }
@@ -773,6 +807,7 @@ class _$ImagePickedImpl implements _ImagePicked {
     TResult Function(_Error value)? error,
     TResult Function(_ImagePicked value)? imagePicked,
     TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (imagePicked != null) {
@@ -835,6 +870,7 @@ class _$ImageNotPickedImpl implements _ImageNotPicked {
     required TResult Function(String message) error,
     required TResult Function(File image) imagePicked,
     required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
   }) {
     return imageNotPicked();
   }
@@ -848,6 +884,7 @@ class _$ImageNotPickedImpl implements _ImageNotPicked {
     TResult? Function(String message)? error,
     TResult? Function(File image)? imagePicked,
     TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
   }) {
     return imageNotPicked?.call();
   }
@@ -861,6 +898,7 @@ class _$ImageNotPickedImpl implements _ImageNotPicked {
     TResult Function(String message)? error,
     TResult Function(File image)? imagePicked,
     TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (imageNotPicked != null) {
@@ -878,6 +916,7 @@ class _$ImageNotPickedImpl implements _ImageNotPicked {
     required TResult Function(_Error value) error,
     required TResult Function(_ImagePicked value) imagePicked,
     required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return imageNotPicked(this);
   }
@@ -891,6 +930,7 @@ class _$ImageNotPickedImpl implements _ImageNotPicked {
     TResult? Function(_Error value)? error,
     TResult? Function(_ImagePicked value)? imagePicked,
     TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return imageNotPicked?.call(this);
   }
@@ -904,6 +944,7 @@ class _$ImageNotPickedImpl implements _ImageNotPicked {
     TResult Function(_Error value)? error,
     TResult Function(_ImagePicked value)? imagePicked,
     TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (imageNotPicked != null) {
@@ -915,4 +956,136 @@ class _$ImageNotPickedImpl implements _ImageNotPicked {
 
 abstract class _ImageNotPicked implements EditProductState {
   const factory _ImageNotPicked() = _$ImageNotPickedImpl;
+}
+
+/// @nodoc
+abstract class _$$DeletedImplCopyWith<$Res> {
+  factory _$$DeletedImplCopyWith(
+          _$DeletedImpl value, $Res Function(_$DeletedImpl) then) =
+      __$$DeletedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DeletedImplCopyWithImpl<$Res>
+    extends _$EditProductStateCopyWithImpl<$Res, _$DeletedImpl>
+    implements _$$DeletedImplCopyWith<$Res> {
+  __$$DeletedImplCopyWithImpl(
+      _$DeletedImpl _value, $Res Function(_$DeletedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$DeletedImpl implements _Deleted {
+  const _$DeletedImpl();
+
+  @override
+  String toString() {
+    return 'EditProductState.deleted()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$DeletedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function(String message) error,
+    required TResult Function(File image) imagePicked,
+    required TResult Function() imageNotPicked,
+    required TResult Function() deleted,
+  }) {
+    return deleted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function(String message)? error,
+    TResult? Function(File image)? imagePicked,
+    TResult? Function()? imageNotPicked,
+    TResult? Function()? deleted,
+  }) {
+    return deleted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function(String message)? error,
+    TResult Function(File image)? imagePicked,
+    TResult Function()? imageNotPicked,
+    TResult Function()? deleted,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Error value) error,
+    required TResult Function(_ImagePicked value) imagePicked,
+    required TResult Function(_ImageNotPicked value) imageNotPicked,
+    required TResult Function(_Deleted value) deleted,
+  }) {
+    return deleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Error value)? error,
+    TResult? Function(_ImagePicked value)? imagePicked,
+    TResult? Function(_ImageNotPicked value)? imageNotPicked,
+    TResult? Function(_Deleted value)? deleted,
+  }) {
+    return deleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Error value)? error,
+    TResult Function(_ImagePicked value)? imagePicked,
+    TResult Function(_ImageNotPicked value)? imageNotPicked,
+    TResult Function(_Deleted value)? deleted,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Deleted implements EditProductState {
+  const factory _Deleted() = _$DeletedImpl;
 }

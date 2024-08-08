@@ -8,4 +8,5 @@ class EditProductState with _$EditProductState {
   const factory EditProductState.error(String message) = _Error;
   const factory EditProductState.imagePicked(File image) = _ImagePicked;
   const factory EditProductState.imageNotPicked() = _ImageNotPicked;
+  const factory EditProductState.deleted() = _Deleted;
 }

@@ -64,6 +64,58 @@ class _EditProductScreenState extends State<EditProductScreen> {
             fontSize: 16,
           ),
         ),
+        actions: [
+          BlocConsumer<EditProductCubit, EditProductState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                deleted: () {
+                  context.pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Produk berhasil dihapus'),
+                    ),
+                  );
+                },
+                orElse: () {},
+              );
+            },
+            builder: (context, state) {
+              return state.maybeWhen(
+                initial: () {
+                  return IconButton(
+                    onPressed: () {
+                      context
+                          .read<EditProductCubit>()
+                          .deleteProduct(widget.product);
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: AppColor.white,
+                    ),
+                  );
+                },
+                loading: () {
+                  return const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(AppColor.white),
+                  );
+                },
+                orElse: () {
+                  return IconButton(
+                    onPressed: () {
+                      context
+                          .read<EditProductCubit>()
+                          .deleteProduct(widget.product);
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: AppColor.white,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

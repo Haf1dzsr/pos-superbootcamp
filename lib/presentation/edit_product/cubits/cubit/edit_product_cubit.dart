@@ -51,4 +51,15 @@ class EditProductCubit extends Cubit<EditProductState> {
       emit(const _ImageNotPicked());
     }
   }
+
+  Future<void> deleteProduct(ProductModel product) async {
+    emit(const _Loading());
+    final result =
+        await ProductRemoteDatasource.instance.deleteProduct(product);
+
+    result.fold(
+      (l) => emit(_Error(l)),
+      (r) => emit(const _Deleted()),
+    );
+  }
 }
