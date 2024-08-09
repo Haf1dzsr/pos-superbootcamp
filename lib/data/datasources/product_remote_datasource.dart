@@ -82,6 +82,18 @@ class ProductRemoteDatasource {
     }
   }
 
+  Future<void> updateProductQuantity(
+      {required String productId, required int quantity}) async {
+    final doc =
+        FirebaseFirestore.instance.collection('products').doc(productId);
+
+    await doc.update(
+      {
+        'stock': quantity,
+      },
+    );
+  }
+
   Future<Either<String, Unit>> deleteProduct(ProductModel product) async {
     try {
       if (product.imageName != null) {
