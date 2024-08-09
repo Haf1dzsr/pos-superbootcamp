@@ -226,6 +226,10 @@ class PaymentScreen extends StatelessWidget {
                                       }
                                     }
                                   }
+                                  await ProductRemoteDatasource.instance
+                                      .deleteAllCartItemsByUserId(
+                                    uid: currentUser!.uid,
+                                  );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text('Order berhasil dibuat'),

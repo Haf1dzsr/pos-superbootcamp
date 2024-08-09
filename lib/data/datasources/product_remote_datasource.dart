@@ -190,4 +190,15 @@ class ProductRemoteDatasource {
     final doc = FirebaseFirestore.instance.collection('carts').doc(cart.cartId);
     await doc.delete();
   }
+
+  Future<void> deleteAllCartItemsByUserId({required String uid}) async {
+    final cartItems = await FirebaseFirestore.instance
+        .collection('carts')
+        .where('userId', isEqualTo: uid)
+        .get();
+
+    for (var item in cartItems.docs) {
+      await item.reference.delete();
+    }
+  }
 }
