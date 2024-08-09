@@ -59,13 +59,16 @@ class CartScreen extends StatelessWidget {
                 child: Text('Keranjang masih kosong'),
               );
             } else if (cartItems.isNotEmpty) {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: cartItems.length,
-                itemBuilder: (context, index) {
-                  final cartItem = cartItems[index];
-                  return CartItemCardWidget(cartItem: cartItem);
-                },
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.775,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                    final cartItem = cartItems[index];
+                    return CartItemCardWidget(cartItem: cartItem);
+                  },
+                ),
               );
             } else {
               return const Center(
