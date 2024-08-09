@@ -128,9 +128,16 @@ class ReportScreen extends StatelessWidget {
             const SizedBox(height: 16),
             TextField(
               controller: productNameController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    productNameController.clear();
+                    productNameNotifier.value = '';
+                  },
+                  icon: const Icon(Icons.clear_rounded),
+                ),
                 labelText: 'Nama Produk',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               onChanged: (value) {
                 productNameNotifier.value = value;
