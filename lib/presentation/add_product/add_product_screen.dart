@@ -22,8 +22,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   final TextEditingController productNameC = TextEditingController();
 
-  final TextEditingController productDescC = TextEditingController();
-
   final TextEditingController productPriceC = TextEditingController();
 
   final TextEditingController productStockC = TextEditingController();
@@ -126,14 +124,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   textInputAction: TextInputAction.next,
-                  label: 'Deskripsi Produk',
-                  hint: "Masukkan Deskripsi Produk",
-                  controller: productDescC,
-                  validator: (value) => Validator.requiredValidator(value),
-                ),
-                const SizedBox(height: 16),
-                CustomTextFormField(
-                  textInputAction: TextInputAction.next,
                   label: 'Harga Produk',
                   hint: "Masukkan Harga Produk",
                   controller: productPriceC,
@@ -182,7 +172,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             if (formKey.currentState!.validate()) {
                               context.read<ProductCubit>().addProduct(
                                     productNameC.text,
-                                    productDescC.text,
                                     int.parse(productPriceC.text),
                                     int.parse(productStockC.text),
                                     _image,

@@ -149,7 +149,6 @@ class ProductRemoteDatasource {
         final cartToAdd = CartModel(
           id: product.id,
           name: product.name,
-          description: product.description,
           price: product.price,
           quantity: quantity,
           priceTotal: product.price! * quantity,

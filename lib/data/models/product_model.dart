@@ -13,7 +13,6 @@ String productModelToJson(List<ProductModel> data) =>
 class ProductModel {
   String? id;
   String? name;
-  String? description;
   int? price;
   int? stock;
   String? imageName;
@@ -22,7 +21,6 @@ class ProductModel {
   ProductModel({
     this.id,
     this.name,
-    this.description,
     this.price,
     this.stock,
     this.imageName,
@@ -41,7 +39,6 @@ class ProductModel {
       ProductModel(
         id: id ?? this.id,
         name: name ?? this.name,
-        description: description ?? this.description,
         price: price ?? this.price,
         stock: stock ?? this.stock,
         imageName: imageName ?? this.imageName,
@@ -51,7 +48,6 @@ class ProductModel {
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
         name: json["name"],
-        description: json["description"],
         price: json["price"],
         stock: json["stock"],
         imageName: json["imageName"],
@@ -61,7 +57,6 @@ class ProductModel {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "description": description,
         "price": price,
         "stock": stock,
         "imageName": imageName,

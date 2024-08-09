@@ -12,21 +12,13 @@ part 'edit_product_cubit.freezed.dart';
 class EditProductCubit extends Cubit<EditProductState> {
   EditProductCubit() : super(const EditProductState.initial());
 
-  Future<void> updateProduct(
-      String id,
-      String name,
-      String description,
-      int price,
-      int stock,
-      File? image,
-      String imageName,
-      String imageUrl) async {
+  Future<void> updateProduct(String id, String name, int price, int stock,
+      File? image, String imageName, String imageUrl) async {
     emit(const _Loading());
 
     final product = ProductModel(
       id: id,
       name: name,
-      description: description,
       price: price,
       stock: stock,
       imageName: imageName,
