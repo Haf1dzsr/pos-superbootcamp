@@ -5,7 +5,9 @@ import 'package:pos_superbootcamp/common/extensions/datetime_ext.dart';
 import 'package:pos_superbootcamp/common/extensions/int_ext.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
+import 'package:pos_superbootcamp/common/widgets/button.dart';
 import 'package:pos_superbootcamp/data/models/order_model.dart';
+import 'package:pos_superbootcamp/presentation/order_detail/preview_pdf_screen.dart';
 import 'package:pos_superbootcamp/presentation/order_detail/widgets/order_detail_product_card_widget.dart';
 import 'package:pos_superbootcamp/presentation/order_detail/widgets/stepper_data_widget.dart';
 
@@ -179,6 +181,23 @@ class OrderDetailScreen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Button.filled(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return OrderPreviewPage(order: order);
+                },
+              ),
+            );
+          },
+          label: 'Preview PDF',
         ),
       ),
     );
