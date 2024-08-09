@@ -5,7 +5,9 @@ import 'package:pos_superbootcamp/common/extensions/datetime_ext.dart';
 import 'package:pos_superbootcamp/common/extensions/int_ext.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
+import 'package:pos_superbootcamp/common/widgets/button.dart';
 import 'package:pos_superbootcamp/data/models/order_model.dart';
+import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/order_detail/widgets/order_detail_product_card_widget.dart';
 import 'package:pos_superbootcamp/presentation/order_detail/widgets/stepper_data_widget.dart';
 
@@ -130,7 +132,6 @@ class ReportDetailScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColor.white,
                 borderRadius: BorderRadius.circular(20.0),
-                // border: Border.all(color: AppColor.grey),
                 boxShadow: [
                   BoxShadow(
                     color: AppColor.grey.withOpacity(0.3),
@@ -177,6 +178,16 @@ class ReportDetailScreen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Button.filled(
+          onPressed: () {
+            context.pushNamed(AppRoutes.nrPreviewPdf, extra: order);
+          },
+          label: 'Preview PDF',
         ),
       ),
     );

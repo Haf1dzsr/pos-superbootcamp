@@ -5,6 +5,7 @@ import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/data/datasources/product_remote_datasource.dart';
 import 'package:pos_superbootcamp/data/models/cart_model.dart';
 import 'package:pos_superbootcamp/data/models/product_model.dart';
+import 'package:pos_superbootcamp/data/utils/auth_helper.dart';
 import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/home/widgets/product_card_widget.dart';
 
@@ -49,7 +50,9 @@ class HomeScreen extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Logout'),
-              onTap: () {
+              onTap: () async {
+                await AuthHelper.instance.deleteToken();
+                await AuthHelper.instance.deleteUserId();
                 FirebaseAuth.instance.signOut();
                 context.pushReplacementNamed(AppRoutes.nrLogin);
               },

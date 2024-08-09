@@ -11,16 +11,16 @@ import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
 import 'package:pos_superbootcamp/data/models/order_model.dart';
 
-class OrderPreviewPage extends StatefulWidget {
-  const OrderPreviewPage({super.key, required this.order});
+class PreviewPdfScreen extends StatefulWidget {
+  const PreviewPdfScreen({super.key, required this.order});
 
   final OrderModel order;
 
   @override
-  State<OrderPreviewPage> createState() => _OrderPreviewPageState();
+  State<PreviewPdfScreen> createState() => _PreviewPdfScreenState();
 }
 
-class _OrderPreviewPageState extends State<OrderPreviewPage> {
+class _PreviewPdfScreenState extends State<PreviewPdfScreen> {
   Future<String> generateOrderPdf(OrderModel order) async {
     final pdf = pw.Document();
 
