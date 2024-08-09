@@ -79,23 +79,26 @@ class HomeScreen extends StatelessWidget {
                       child: Text('Belum ada produk'),
                     );
                   } else if (snapshot.hasData) {
-                    return GridView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 16.0,
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.85,
+                      child: GridView.builder(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 16.0,
+                        ),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 1.8 / 2.4,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 16.0,
+                          crossAxisSpacing: 16.0,
+                        ),
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          return ProductCardWidget(product: products[index]);
+                        },
                       ),
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 1.8 / 2.4,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 16.0,
-                        crossAxisSpacing: 16.0,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        return ProductCardWidget(product: products[index]);
-                      },
                     );
                   } else {
                     return const Center(
