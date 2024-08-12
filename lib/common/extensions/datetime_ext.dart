@@ -68,9 +68,9 @@ extension DateTimeExt on DateTime {
   String toFormattedTime() {
     final String hari = _getNamaHari(weekday);
     final String bulan = _getNamaBulan(month);
-    final String amPm = DateTime.now().hour < 12 ? 'AM' : 'PM';
-    final int hour = DateTime.now().hour % 12;
-    final int minute = DateTime.now().minute;
-    return '$hari $day $bulan, $hour:$minute $amPm';
+    final String amPm = hour < 12 ? 'AM' : 'PM';
+    final int formattedHour = hour % 12 == 0 ? 12 : hour % 12;
+    final String formattedMinute = minute.toString().padLeft(2, '0');
+    return '$hari $day $bulan, $formattedHour:$formattedMinute $amPm';
   }
 }
