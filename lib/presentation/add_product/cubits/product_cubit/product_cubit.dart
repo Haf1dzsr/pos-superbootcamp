@@ -13,12 +13,15 @@ class ProductCubit extends Cubit<ProductState> {
   ProductCubit() : super(const ProductState.initial());
 
   Future<void> addProduct(
-      String name, int price, int stock, File? image) async {
+      String name, int price, int stock, File? image, String uid) async {
     emit(const ProductState.loading());
 
-    final product = ProductModel(name: name, price: price, stock: stock);
-    final result =
-        await ProductRemoteDatasource.instance.addProduct(product, image);
+    final product =
+        ProductModel(name: name, price: price, stock: stock, userId: uid);
+    final result = await ProductRemoteDatasource.instance.addProduct(
+      product,
+      image,
+    );
 
     result.fold(
       (failure) => emit(ProductState.error(failure)),

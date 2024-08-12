@@ -71,7 +71,7 @@ final GoRouter appGlobalRouter = GoRouter(
     GoRoute(
       path: AppRoutes.nrInventory,
       name: AppRoutes.nrInventory,
-      builder: (context, state) => const InventoryScreen(),
+      builder: (context, state) => InventoryScreen(),
     ),
     GoRoute(
       path: AppRoutes.nrEditProduct,

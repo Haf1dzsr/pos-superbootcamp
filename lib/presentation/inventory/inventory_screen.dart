@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pos_superbootcamp/common/themes/app_color.dart';
@@ -8,68 +9,67 @@ import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/inventory/widgets/inventory_product_card_widget.dart';
 
 class InventoryScreen extends StatelessWidget {
-  const InventoryScreen({super.key});
+  InventoryScreen({super.key});
+
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              StreamBuilder<List<ProductModel>>(
-                stream: ProductRemoteDatasource.instance.getProducts(),
-                builder: (context, snapshot) {
-                  final products = snapshot.data ?? [];
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(
-                        snapshot.error.toString(),
-                        style: const TextStyle(color: AppColor.error),
-                      ),
-                    );
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(AppColor.primary),
-                      ),
-                    );
-                  } else if (products.isEmpty) {
-                    return const Center(
-                      child: Text('Belum ada produk'),
-                    );
-                  } else if (snapshot.hasData) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.9,
-                      child: GridView.builder(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 16.0,
-                        ),
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 1.8 / 2.4,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 16.0,
-                          crossAxisSpacing: 16.0,
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          return InventoryProductCardWidget(
-                              product: products[index]);
-                        },
-                      ),
-                    );
-                  } else {
-                    return const Center(
-                      child: Text('Terjadi Kesalahan'),
-                    );
-                  }
-                },
-              ),
-            ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: StreamBuilder<List<ProductModel>>(
+            stream: ProductRemoteDatasource.instance
+                .getProducts(uid: currentUser!.uid),
+            builder: (context, snapshot) {
+              final products = snapshot.data ?? [];
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    snapshot.error.toString(),
+                    style: const TextStyle(color: AppColor.error),
+                  ),
+                );
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(AppColor.primary),
+                  ),
+                );
+              } else if (products.isEmpty) {
+                return const Center(
+                  child: Text('Belum ada produk'),
+                );
+              } else if (snapshot.hasData) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  child: GridView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 16.0,
+                    ),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 1.8 / 2.4,
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.0,
+                      crossAxisSpacing: 16.0,
+                    ),
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      return InventoryProductCardWidget(
+                          product: products[index]);
+                    },
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: Text('Terjadi Kesalahan'),
+                );
+              }
+            },
           ),
         ),
       ),

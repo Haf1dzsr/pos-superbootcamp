@@ -11,7 +11,7 @@ class MainScreen extends StatelessWidget {
 
   final List<Widget> _pages = [
     HomeScreen(),
-    const InventoryScreen(),
+    InventoryScreen(),
     ReportScreen(),
   ];
 

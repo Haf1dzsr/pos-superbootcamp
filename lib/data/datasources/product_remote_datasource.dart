@@ -32,7 +32,10 @@ class ProductRemoteDatasource {
       final doc = productCol.doc();
 
       final productToAdd = product.copyWith(
-          id: doc.id, imageName: imageName, imageUrl: imageUrl);
+        id: doc.id,
+        imageName: imageName,
+        imageUrl: imageUrl,
+      );
       await doc.set(productToAdd.toJson());
 
       return right(unit);
@@ -114,9 +117,12 @@ class ProductRemoteDatasource {
     }
   }
 
-  Stream<List<ProductModel>> getProducts() {
-    return FirebaseFirestore.instance.collection('products').snapshots().map(
-        (snapshot) => snapshot.docs
+  Stream<List<ProductModel>> getProducts({required String uid}) {
+    return FirebaseFirestore.instance
+        .collection('products')
+        .where('userId', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
             .map((doc) => ProductModel.fromJson(doc.data()))
             .toList());
   }

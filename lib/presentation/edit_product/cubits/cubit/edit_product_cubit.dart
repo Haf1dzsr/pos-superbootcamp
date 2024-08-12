@@ -13,7 +13,7 @@ class EditProductCubit extends Cubit<EditProductState> {
   EditProductCubit() : super(const EditProductState.initial());
 
   Future<void> updateProduct(String id, String name, int price, int stock,
-      File? image, String imageName, String imageUrl) async {
+      File? image, String imageName, String imageUrl, String uid) async {
     emit(const _Loading());
 
     final product = ProductModel(
@@ -23,6 +23,7 @@ class EditProductCubit extends Cubit<EditProductState> {
       stock: stock,
       imageName: imageName,
       imageUrl: imageUrl,
+      userId: uid,
     );
     final result =
         await ProductRemoteDatasource.instance.updateProduct(product, image);

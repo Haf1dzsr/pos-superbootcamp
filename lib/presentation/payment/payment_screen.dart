@@ -168,7 +168,8 @@ class PaymentScreen extends StatelessWidget {
               }
 
               return StreamBuilder<List<ProductModel>>(
-                stream: ProductRemoteDatasource.instance.getProducts(),
+                stream: ProductRemoteDatasource.instance
+                    .getProducts(uid: currentUser!.uid),
                 builder: (context, snapshot) {
                   final products = snapshot.data ?? [];
                   return ValueListenableBuilder(

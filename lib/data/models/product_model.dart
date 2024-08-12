@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final productModel = productModelFromJson(jsonString);
-
 import 'dart:convert';
 
 List<ProductModel> productModelFromJson(String str) => List<ProductModel>.from(
@@ -17,6 +13,7 @@ class ProductModel {
   int? stock;
   String? imageName;
   String? imageUrl;
+  String? userId;
 
   ProductModel({
     this.id,
@@ -25,6 +22,7 @@ class ProductModel {
     this.stock,
     this.imageName,
     this.imageUrl,
+    this.userId,
   });
 
   ProductModel copyWith({
@@ -35,6 +33,7 @@ class ProductModel {
     int? stock,
     String? imageName,
     String? imageUrl,
+    String? userId,
   }) =>
       ProductModel(
         id: id ?? this.id,
@@ -43,6 +42,7 @@ class ProductModel {
         stock: stock ?? this.stock,
         imageName: imageName ?? this.imageName,
         imageUrl: imageUrl ?? this.imageUrl,
+        userId: userId ?? this.userId,
       );
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -52,6 +52,7 @@ class ProductModel {
         stock: json["stock"],
         imageName: json["imageName"],
         imageUrl: json["imageUrl"],
+        userId: json["userId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,5 +62,6 @@ class ProductModel {
         "stock": stock,
         "imageName": imageName,
         "imageUrl": imageUrl,
+        "userId": userId,
       };
 }

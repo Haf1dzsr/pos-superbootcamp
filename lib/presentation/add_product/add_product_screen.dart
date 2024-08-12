@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +26,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController productPriceC = TextEditingController();
 
   final TextEditingController productStockC = TextEditingController();
+
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   File? _image;
 
@@ -175,6 +178,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     int.parse(productPriceC.text),
                                     int.parse(productStockC.text),
                                     _image,
+                                    currentUser!.uid,
                                   );
                             }
                           },
