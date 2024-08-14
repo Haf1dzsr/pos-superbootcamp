@@ -128,9 +128,16 @@ class ReportScreen extends StatelessWidget {
             const SizedBox(height: 16),
             TextField(
               controller: productNameController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    productNameController.clear();
+                    productNameNotifier.value = '';
+                  },
+                  icon: const Icon(Icons.clear_rounded),
+                ),
                 labelText: 'Nama Produk',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               onChanged: (value) {
                 productNameNotifier.value = value;
@@ -241,6 +248,28 @@ class ReportScreen extends StatelessWidget {
                               final filteredOrders = filterOrders(orderDone,
                                   rangeValue, productName, minPrice, maxPrice);
                               log("filteredOrders: $filteredOrders");
+                              if (filteredOrders.isEmpty) {
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        "assets/empty_cart.svg",
+                                        width: 200,
+                                        height: 200,
+                                      ),
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                      Text(
+                                        'Tidak ada orderan yang sesuai',
+                                        style: appTheme.textTheme.bodyMedium!
+                                            .copyWith(color: AppColor.grey),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
                               return ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: filteredOrders.length,

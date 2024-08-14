@@ -12,6 +12,7 @@ import 'package:pos_superbootcamp/common/widgets/dash_divider.dart';
 import 'package:pos_superbootcamp/data/datasources/product_remote_datasource.dart';
 import 'package:pos_superbootcamp/data/models/cart_model.dart';
 import 'package:pos_superbootcamp/data/models/order_model.dart';
+import 'package:pos_superbootcamp/data/models/product_model.dart';
 import 'package:pos_superbootcamp/presentation/app_route_names.dart';
 import 'package:pos_superbootcamp/presentation/payment/cubits/cubit/order_cubit.dart';
 import 'package:pos_superbootcamp/presentation/payment/widgets/payment_option_card_widget.dart';
@@ -166,95 +167,130 @@ class PaymentScreen extends StatelessWidget {
                 cartPriceTotal += item.priceTotal!;
               }
 
-              return ValueListenableBuilder(
-                valueListenable: biayaAdmin,
-                builder: (context, value, biaya) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const DashDivider(),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              return StreamBuilder<List<ProductModel>>(
+                stream: ProductRemoteDatasource.instance
+                    .getProducts(uid: currentUser!.uid),
+                builder: (context, snapshot) {
+                  final products = snapshot.data ?? [];
+                  return ValueListenableBuilder(
+                    valueListenable: biayaAdmin,
+                    builder: (context, value, biaya) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            "Biaya Admin",
-                            style: appTheme.textTheme.titleMedium,
+                          const DashDivider(),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Biaya Admin",
+                                style: appTheme.textTheme.titleMedium,
+                              ),
+                              Text(
+                                biayaAdmin.value.currencyFormatRp,
+                                style: appTheme.textTheme.titleMedium,
+                              ),
+                            ],
                           ),
-                          Text(
-                            biayaAdmin.value.currencyFormatRp,
-                            style: appTheme.textTheme.titleMedium,
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Total Harga",
+                                style: appTheme.textTheme.titleMedium,
+                              ),
+                              Text(
+                                (cartPriceTotal + biayaAdmin.value)
+                                    .currencyFormatRp,
+                                style: appTheme.textTheme.titleMedium,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Total Harga",
-                            style: appTheme.textTheme.titleMedium,
+                          const SizedBox(
+                            height: 16,
                           ),
-                          Text(
-                            (cartPriceTotal + biayaAdmin.value)
-                                .currencyFormatRp,
-                            style: appTheme.textTheme.titleMedium,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      BlocConsumer<OrderCubit, OrderState>(
-                        listener: (context, state) {
-                          state.maybeWhen(
-                            success: (order) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Order berhasil dibuat'),
-                                ),
-                              );
-                              context.pushNamed(AppRoutes.nrOrderDetail,
-                                  extra: order);
-                            },
-                            orElse: () {},
-                          );
-                        },
-                        builder: (context, state) {
-                          return state.maybeWhen(
-                            loading: () {
-                              return const CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation(AppColor.primary),
-                              );
-                            },
-                            orElse: () {
-                              return Button.filled(
-                                onPressed: () {
-                                  final now = Timestamp.now();
-                                  final order = OrderModel(
-                                    userId: currentUser!.uid,
-                                    products: data,
-                                    biayaAdmin: biayaAdmin.value,
-                                    orderStatus: 'Success',
-                                    paymentMethod: selectedPaymentMethod.value,
-                                    priceTotal:
-                                        cartPriceTotal + biayaAdmin.value,
-                                    createdAt: now,
+                          BlocConsumer<OrderCubit, OrderState>(
+                            listener: (context, state) {
+                              state.maybeWhen(
+                                success: (order) async {
+                                  for (var item in data) {
+                                    for (var product in products) {
+                                      if (product.id == item.id) {
+                                        await ProductRemoteDatasource.instance
+                                            .updateProductQuantity(
+                                          productId: item.id!,
+                                          quantity:
+                                              product.stock! - item.quantity!,
+                                        );
+                                      }
+                                    }
+                                  }
+                                  await ProductRemoteDatasource.instance
+                                      .deleteAllCartItemsByUserId(
+                                    uid: currentUser!.uid,
                                   );
-
-                                  context.read<OrderCubit>().createOrder(
-                                        order: order,
-                                        uid: currentUser!.uid,
-                                      );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Order berhasil dibuat'),
+                                    ),
+                                  );
+                                  context.pushNamed(AppRoutes.nrOrderDetail,
+                                      extra: order);
                                 },
-                                label: 'Lanjutkan',
+                                orElse: () {},
                               );
                             },
-                          );
-                        },
-                      ),
-                    ],
+                            builder: (context, state) {
+                              return state.maybeWhen(
+                                loading: () {
+                                  return const CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation(
+                                        AppColor.primary),
+                                  );
+                                },
+                                orElse: () {
+                                  return Button.filled(
+                                    onPressed: () {
+                                      final now = Timestamp.now();
+                                      final order = OrderModel(
+                                        userId: currentUser!.uid,
+                                        products: data,
+                                        biayaAdmin: biayaAdmin.value,
+                                        orderStatus: 'Success',
+                                        paymentMethod:
+                                            selectedPaymentMethod.value,
+                                        priceTotal:
+                                            cartPriceTotal + biayaAdmin.value,
+                                        createdAt: now,
+                                      );
+
+                                      if (selectedPaymentMethod.value != '') {
+                                        context.read<OrderCubit>().createOrder(
+                                              order: order,
+                                              uid: currentUser!.uid,
+                                            );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Pilih metode pembayaran terlebih dahulu',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    label: 'Lanjutkan',
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
               );

@@ -98,10 +98,15 @@ class ReportCardWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      order.products?.map((e) => e.name).join(", ") ?? "",
-                      style:
-                          appTheme.textTheme.titleSmall!.copyWith(fontSize: 12),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Text(
+                        order.products?.map((e) => e.name).join(", ") ?? "",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: appTheme.textTheme.titleSmall!
+                            .copyWith(fontSize: 12),
+                      ),
                     ),
                   ],
                 ),

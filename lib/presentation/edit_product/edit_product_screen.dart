@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -23,9 +24,9 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final TextEditingController productNameC = TextEditingController();
+  final currentUser = FirebaseAuth.instance.currentUser;
 
-  final TextEditingController productDescC = TextEditingController();
+  final TextEditingController productNameC = TextEditingController();
 
   final TextEditingController productPriceC = TextEditingController();
 
@@ -49,7 +50,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
     );
 
     productNameC.text = widget.product.name!;
-    productDescC.text = widget.product.description!;
     productPriceC.text = widget.product.price!.toString();
     productStockC.text = widget.product.stock!.toString();
     super.initState();
@@ -138,43 +138,59 @@ class _EditProductScreenState extends State<EditProductScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 16.0),
-                widget.product.imageUrl != null
-                    ? ClipOval(
-                        child: Image.network(
-                          widget.product.imageUrl!,
-                          fit: BoxFit.cover,
-                          width: 150,
-                          height: 150,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(
-                              Icons.image_not_supported,
-                              size: 50,
-                              color: AppColor.greyFill,
-                            );
-                          },
+                BlocBuilder<EditProductCubit, EditProductState>(
+                  builder: (context, state) {
+                    return Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColor.primary, width: 2),
+                      ),
+                      child: state.maybeWhen(
+                        initial: () => const Icon(
+                          Icons.image_not_supported,
+                          size: 50,
+                          color: AppColor.greyFill,
                         ),
-                      )
-                    : BlocBuilder<EditProductCubit, EditProductState>(
-                        builder: (context, state) {
-                          return Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border:
-                                  Border.all(color: AppColor.primary, width: 2),
+                        imagePicked: (image) {
+                          _image = image;
+                          return ClipOval(
+                            child: Image.file(
+                              _image!,
+                              fit: BoxFit.cover,
+                              width: 150,
+                              height: 150,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.image_not_supported,
+                                  size: 50,
+                                  color: AppColor.greyFill,
+                                );
+                              },
                             ),
-                            child: state.maybeWhen(
-                              initial: () => const Icon(
-                                Icons.image_not_supported,
-                                size: 50,
-                                color: AppColor.greyFill,
-                              ),
-                              imagePicked: (image) {
-                                _image = image;
-                                return ClipOval(
+                          );
+                        },
+                        orElse: () {
+                          return _image == null || _image!.path.isEmpty
+                              ? ClipOval(
+                                  child: Image.network(
+                                    widget.product.imageUrl!,
+                                    fit: BoxFit.cover,
+                                    width: 150,
+                                    height: 150,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(
+                                        Icons.image_not_supported,
+                                        size: 50,
+                                        color: AppColor.greyFill,
+                                      );
+                                    },
+                                  ),
+                                )
+                              : ClipOval(
                                   child: Image.file(
-                                    image,
+                                    _image!,
                                     fit: BoxFit.cover,
                                     width: 150,
                                     height: 150,
@@ -187,18 +203,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                     },
                                   ),
                                 );
-                              },
-                              orElse: () {
-                                return const Icon(
-                                  Icons.image_not_supported,
-                                  size: 50,
-                                  color: AppColor.greyFill,
-                                );
-                              },
-                            ),
-                          );
                         },
                       ),
+                    );
+                  },
+                ),
                 const SizedBox(height: 16),
                 Button.outlined(
                   onPressed: () async {
@@ -216,14 +225,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   label: 'Nama Produk',
                   hint: "Masukkan Nama Produk",
                   controller: productNameC,
-                  validator: (value) => Validator.requiredValidator(value),
-                ),
-                const SizedBox(height: 16),
-                CustomTextFormField(
-                  textInputAction: TextInputAction.next,
-                  label: 'Deskripsi Produk',
-                  hint: "Masukkan Deskripsi Produk",
-                  controller: productDescC,
                   validator: (value) => Validator.requiredValidator(value),
                 ),
                 const SizedBox(height: 16),
@@ -280,12 +281,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               context.read<EditProductCubit>().updateProduct(
                                     widget.product.id!,
                                     productNameC.text,
-                                    productDescC.text,
                                     int.parse(productPriceC.text),
                                     int.parse(productStockC.text),
                                     image,
                                     widget.product.imageName!,
                                     widget.product.imageUrl!,
+                                    currentUser!.uid,
                                   );
                             }
                           },
@@ -300,12 +301,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               context.read<EditProductCubit>().updateProduct(
                                     widget.product.id!,
                                     productNameC.text,
-                                    productDescC.text,
                                     int.parse(productPriceC.text),
                                     int.parse(productStockC.text),
                                     null,
                                     widget.product.imageName!,
                                     widget.product.imageUrl!,
+                                    currentUser!.uid,
                                   );
                             }
                           },

@@ -12,6 +12,7 @@ import 'package:pos_superbootcamp/presentation/home/home_screen.dart';
 import 'package:pos_superbootcamp/presentation/inventory/inventory_screen.dart';
 import 'package:pos_superbootcamp/presentation/main/main_screen.dart';
 import 'package:pos_superbootcamp/presentation/order_detail/order_detail_screen.dart';
+import 'package:pos_superbootcamp/presentation/order_detail/preview_pdf_screen.dart';
 import 'package:pos_superbootcamp/presentation/payment/payment_screen.dart';
 import 'package:pos_superbootcamp/presentation/product_detail/product_detail_screen.dart';
 import 'package:pos_superbootcamp/presentation/report/report_detail_screen.dart';
@@ -70,7 +71,7 @@ final GoRouter appGlobalRouter = GoRouter(
     GoRoute(
       path: AppRoutes.nrInventory,
       name: AppRoutes.nrInventory,
-      builder: (context, state) => const InventoryScreen(),
+      builder: (context, state) => InventoryScreen(),
     ),
     GoRoute(
       path: AppRoutes.nrEditProduct,
@@ -106,6 +107,14 @@ final GoRouter appGlobalRouter = GoRouter(
       builder: (context, state) {
         final OrderModel order = state.extra as OrderModel;
         return ReportDetailScreen(order: order);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.nrPreviewPdf,
+      name: AppRoutes.nrPreviewPdf,
+      builder: (context, state) {
+        final OrderModel order = state.extra as OrderModel;
+        return PreviewPdfScreen(order: order);
       },
     ),
   ],

@@ -7,7 +7,6 @@ String cartModelToJson(CartModel data) => json.encode(data.toJson());
 class CartModel {
   final String? id;
   final String? name;
-  final String? description;
   final int? price;
   late final int? quantity;
   final int? priceTotal;
@@ -19,7 +18,6 @@ class CartModel {
   CartModel({
     this.id,
     this.name,
-    this.description,
     this.price,
     this.quantity,
     this.priceTotal,
@@ -32,7 +30,6 @@ class CartModel {
   CartModel copyWith({
     String? id,
     String? name,
-    String? description,
     int? price,
     int? quantity,
     int? priceTotal,
@@ -44,7 +41,6 @@ class CartModel {
       CartModel(
         id: id ?? this.id,
         name: name ?? this.name,
-        description: description ?? this.description,
         price: price ?? this.price,
         quantity: quantity ?? this.quantity,
         priceTotal: priceTotal ?? this.priceTotal,
@@ -57,7 +53,6 @@ class CartModel {
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         id: json["id"],
         name: json["name"],
-        description: json["description"],
         price: json["price"],
         quantity: json["quantity"],
         priceTotal: json["priceTotal"],
@@ -70,7 +65,6 @@ class CartModel {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "description": description,
         "price": price,
         "quantity": quantity,
         "priceTotal": priceTotal,

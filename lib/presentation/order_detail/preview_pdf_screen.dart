@@ -11,16 +11,16 @@ import 'package:pos_superbootcamp/common/themes/app_color.dart';
 import 'package:pos_superbootcamp/common/themes/app_font.dart';
 import 'package:pos_superbootcamp/data/models/order_model.dart';
 
-class OrderPreviewPage extends StatefulWidget {
-  const OrderPreviewPage({super.key, required this.order});
+class PreviewPdfScreen extends StatefulWidget {
+  const PreviewPdfScreen({super.key, required this.order});
 
   final OrderModel order;
 
   @override
-  State<OrderPreviewPage> createState() => _OrderPreviewPageState();
+  State<PreviewPdfScreen> createState() => _PreviewPdfScreenState();
 }
 
-class _OrderPreviewPageState extends State<OrderPreviewPage> {
+class _PreviewPdfScreenState extends State<PreviewPdfScreen> {
   Future<String> generateOrderPdf(OrderModel order) async {
     final pdf = pw.Document();
 
@@ -30,6 +30,7 @@ class _OrderPreviewPageState extends State<OrderPreviewPage> {
         build: (pw.Context context) => pw.Padding(
           padding: const pw.EdgeInsets.all(8),
           child: pw.Column(
+            mainAxisAlignment: pw.MainAxisAlignment.start,
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
               pw.SizedBox(height: 32),
@@ -48,22 +49,108 @@ class _OrderPreviewPageState extends State<OrderPreviewPage> {
                           style: const pw.TextStyle(fontSize: 16)),
                     ]),
               ),
+              pw.Divider(borderStyle: pw.BorderStyle.dashed),
+              pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text('Total Harga',
+                        style: const pw.TextStyle(fontSize: 16)),
+                    pw.Text(
+                        (widget.order.priceTotal! - widget.order.biayaAdmin!)
+                            .currencyFormatRp,
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                  ]),
               pw.SizedBox(height: 16),
               pw.Text('Detail Pesanan',
                   style: pw.TextStyle(
                       fontSize: 18, fontWeight: pw.FontWeight.bold)),
               pw.SizedBox(height: 8),
-              pw.Text(
-                  'Waktu Order: ${order.createdAt!.toDate().toFormattedDateWithDay()}',
-                  style: const pw.TextStyle(fontSize: 16)),
-              pw.Text('Status Pembayaran: ${order.orderStatus}',
-                  style: const pw.TextStyle(fontSize: 16)),
-              pw.Text('Metode Pembayaran: ${order.paymentMethod}',
-                  style: const pw.TextStyle(fontSize: 16)),
-              pw.Text('Biaya Admin: ${order.biayaAdmin}',
-                  style: const pw.TextStyle(fontSize: 16)),
-              pw.Text('Total Harga: ${order.priceTotal}',
-                  style: const pw.TextStyle(fontSize: 16)),
+              pw.Row(children: [
+                pw.Expanded(
+                    flex: 6,
+                    child: pw.Text('Waktu Order',
+                        style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 1,
+                    child:
+                        pw.Text(':', style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 10,
+                    child: pw.Text(
+                        textAlign: pw.TextAlign.end,
+                        order.createdAt!.toDate().toFormattedDateWithDay(),
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold))),
+              ]),
+              pw.Row(children: [
+                pw.Expanded(
+                    flex: 6,
+                    child: pw.Text('Status Pembayaran',
+                        style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 1,
+                    child:
+                        pw.Text(':', style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 10,
+                    child: pw.Text(
+                        textAlign: pw.TextAlign.end,
+                        order.orderStatus!,
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold))),
+              ]),
+              pw.Row(children: [
+                pw.Expanded(
+                    flex: 6,
+                    child: pw.Text('Metode Pembayaran',
+                        style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 1,
+                    child:
+                        pw.Text(':', style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 10,
+                    child: pw.Text(
+                        textAlign: pw.TextAlign.end,
+                        order.paymentMethod!,
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold))),
+              ]),
+              pw.Row(children: [
+                pw.Expanded(
+                    flex: 6,
+                    child: pw.Text('Biaya Admin',
+                        style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 1,
+                    child:
+                        pw.Text(':', style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 10,
+                    child: pw.Text(
+                        textAlign: pw.TextAlign.end,
+                        order.biayaAdmin!.currencyFormatRp,
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold))),
+              ]),
+              pw.Row(children: [
+                pw.Expanded(
+                    flex: 6,
+                    child: pw.Text('Total Harga',
+                        style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 1,
+                    child:
+                        pw.Text(':', style: const pw.TextStyle(fontSize: 16))),
+                pw.Expanded(
+                    flex: 10,
+                    child: pw.Text(
+                        textAlign: pw.TextAlign.end,
+                        order.priceTotal!.currencyFormatRp,
+                        style: pw.TextStyle(
+                            fontSize: 16, fontWeight: pw.FontWeight.bold))),
+              ]),
             ],
           ),
         ),

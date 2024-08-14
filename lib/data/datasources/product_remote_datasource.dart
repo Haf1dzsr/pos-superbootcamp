@@ -32,7 +32,10 @@ class ProductRemoteDatasource {
       final doc = productCol.doc();
 
       final productToAdd = product.copyWith(
-          id: doc.id, imageName: imageName, imageUrl: imageUrl);
+        id: doc.id,
+        imageName: imageName,
+        imageUrl: imageUrl,
+      );
       await doc.set(productToAdd.toJson());
 
       return right(unit);
@@ -82,6 +85,18 @@ class ProductRemoteDatasource {
     }
   }
 
+  Future<void> updateProductQuantity(
+      {required String productId, required int quantity}) async {
+    final doc =
+        FirebaseFirestore.instance.collection('products').doc(productId);
+
+    await doc.update(
+      {
+        'stock': quantity,
+      },
+    );
+  }
+
   Future<Either<String, Unit>> deleteProduct(ProductModel product) async {
     try {
       if (product.imageName != null) {
@@ -102,9 +117,12 @@ class ProductRemoteDatasource {
     }
   }
 
-  Stream<List<ProductModel>> getProducts() {
-    return FirebaseFirestore.instance.collection('products').snapshots().map(
-        (snapshot) => snapshot.docs
+  Stream<List<ProductModel>> getProducts({required String uid}) {
+    return FirebaseFirestore.instance
+        .collection('products')
+        .where('userId', isEqualTo: uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
             .map((doc) => ProductModel.fromJson(doc.data()))
             .toList());
   }
@@ -137,7 +155,6 @@ class ProductRemoteDatasource {
         final cartToAdd = CartModel(
           id: product.id,
           name: product.name,
-          description: product.description,
           price: product.price,
           quantity: quantity,
           priceTotal: product.price! * quantity,
@@ -178,5 +195,16 @@ class ProductRemoteDatasource {
   Future<void> deleteItemfromCart({required CartModel cart}) async {
     final doc = FirebaseFirestore.instance.collection('carts').doc(cart.cartId);
     await doc.delete();
+  }
+
+  Future<void> deleteAllCartItemsByUserId({required String uid}) async {
+    final cartItems = await FirebaseFirestore.instance
+        .collection('carts')
+        .where('userId', isEqualTo: uid)
+        .get();
+
+    for (var item in cartItems.docs) {
+      await item.reference.delete();
+    }
   }
 }
