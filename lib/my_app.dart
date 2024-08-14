@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pos_superbootcamp/presentation/add_product/cubits/product_cubit/product_cubit.dart';
 import 'package:pos_superbootcamp/presentation/app_router.dart';
 import 'package:pos_superbootcamp/presentation/auth/blocs/login/login_bloc.dart';
 import 'package:pos_superbootcamp/presentation/auth/blocs/register/register_bloc.dart';
+import 'package:pos_superbootcamp/presentation/edit_product/cubits/cubit/edit_product_cubit.dart';
+import 'package:pos_superbootcamp/presentation/payment/cubits/cubit/order_cubit.dart';
+import 'package:pos_superbootcamp/presentation/product_detail/cubits/add_product_to_cart/add_product_to_cart_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -16,6 +20,18 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LoginBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ProductCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AddProductToCartCubit(),
+        ),
+        BlocProvider(
+          create: (context) => EditProductCubit(),
+        ),
+        BlocProvider(
+          create: (context) => OrderCubit(),
         ),
       ],
       child: MaterialApp.router(

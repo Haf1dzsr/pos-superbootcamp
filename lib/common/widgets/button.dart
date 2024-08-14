@@ -64,7 +64,7 @@ class Button extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   icon ?? const SizedBox.shrink(),
-                  if (icon != null) const SizedBox(width: 10),
+                  if (icon != null) const SizedBox(width: 8),
                   Text(
                     label,
                     style: TextStyle(
@@ -80,7 +80,7 @@ class Button extends StatelessWidget {
               onPressed: disabled ? null : onPressed,
               style: OutlinedButton.styleFrom(
                 backgroundColor: color,
-                side: const BorderSide(color: AppColor.secondary, width: 2),
+                side: const BorderSide(color: AppColor.primary, width: 2),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
@@ -89,7 +89,7 @@ class Button extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   icon ?? const SizedBox.shrink(),
-                  if (icon != null) const SizedBox(width: 10),
+                  if (icon != null) const SizedBox(width: 8),
                   Text(
                     label,
                     style: TextStyle(
