@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,7 +24,9 @@ class PreviewPdfScreen extends StatefulWidget {
 class _PreviewPdfScreenState extends State<PreviewPdfScreen> {
   Future<String> generateOrderPdf(OrderModel order) async {
     final pdf = pw.Document();
-
+    final imageTest = (await rootBundle.load('assets/hafidz-semiformal.png'))
+        .buffer
+        .asUint8List();
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
@@ -33,6 +36,12 @@ class _PreviewPdfScreenState extends State<PreviewPdfScreen> {
             mainAxisAlignment: pw.MainAxisAlignment.start,
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
+              pw.Center(
+                child: pw.Image(
+                  pw.MemoryImage(imageTest),
+                  width: 400,
+                ),
+              ),
               pw.SizedBox(height: 32),
               pw.Text('Produk Dipesan:',
                   style: pw.TextStyle(
